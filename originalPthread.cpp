@@ -68,12 +68,16 @@ int countNeighbours(vector<vector<bool>> *grid, int lin, int col) {
 	} else if(grid[lin + 1][col] == 1) counter++;
 
 	// Vizinho diagonal superior esquerda:
+    // TODO
 
 	// Vizinho diagonal superior direita:
+    // TODO
 
 	// Vizinho diagonal inferior esquerda:
+    // TODO
 	
 	// Vizinho diagonal inferior direita:
+    // TODO
 	
 
 	return counter;
@@ -87,6 +91,8 @@ void *recalculateCell(void *arguments) {
 	int lin = threadInfo->i, col = 	threadInfo->j;
 
 	int numberOfNeighbours = countNeighbours(grid, lin, col);
+    
+    // TODO - Finish method
 }
 
 // Atualiza as mudanças no tabuleiro após cada iteração
