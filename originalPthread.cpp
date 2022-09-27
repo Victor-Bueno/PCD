@@ -53,7 +53,7 @@ int countNeighbours(vector<vector<bool>> *grid, int lin, int col) {
 	} else if(grid[lin - 1][col] == 1) counter++;
 
 	// Vizinho à direita:
-	if(col == N) {
+	if(col == N - 1) {
 		if (grid[lin][0] == 1) counter++;
 	} else if(grid[lin][col + 1] == 1) counter++;
 	
@@ -63,22 +63,45 @@ int countNeighbours(vector<vector<bool>> *grid, int lin, int col) {
 	} else if(grid[lin][col - 1] == 1) counter++;
 
 	// Vizinho inferior:
-	if(lin == N) {
+	if(lin == N - 1) {
 		if (grid[0][col] == 1) counter++;
 	} else if(grid[lin + 1][col] == 1) counter++;
 
 	// Vizinho diagonal superior esquerda:
-    // TODO
+    if(lin != 0 && col != 0)
+    	if (grid[lin - 1][col - 1] == 1) counter++;
+    else if (lin == 0 && col != 0)
+    	if (grid[N - 1][col - 1] == 1) counter++;
+    else if (lin != 0 && col == 0)
+    	if (grid[lin - 1][N - 1] == 1) counter++;
+    else if (grid[N - 1][N - 1] == 1) counter++;
 
 	// Vizinho diagonal superior direita:
-    // TODO
+    if(lin != 0 && col != N - 1)
+    	if (grid[lin - 1][col + 1] == 1) counter++;
+    else if (lin == 0 && col != N - 1)
+    	if (grid[N - 1][col + 1] == 1) counter++;
+    else if (lin != 0 && col == N - 1)
+    	if (grid[lin - 1][0] == 1) counter++;
+    else if (grid[N - 1][0] == 1) counter++;
 
 	// Vizinho diagonal inferior esquerda:
-    // TODO
+    if(lin != N - 1 && col != 0)
+    	if (grid[lin + 1][col - 1] == 1) counter++;
+    else if (lin == N - 1 && col != 0)
+    	if (grid[0][col - 1] == 1) counter++;
+    else if (lin != N - 1 && col == 0)
+    	if (grid[lin + 1][N - 1] == 1) counter++;
+    else if (grid[0][N - 1] == 1) counter++;
 	
 	// Vizinho diagonal inferior direita:
-    // TODO
-	
+    if(lin != N - 1 && col != N - 1)
+    	if (grid[lin + 1][col + 1] == 1) counter++;
+    else if (lin == N - 1 && col != N - 1)
+    	if (grid[0][col + 1] == 1) counter++;
+    else if (lin != N - 1  && col == N - 1)
+    	if (grid[lin + 1][0] == 1) counter++;
+    else if (grid[0][0] == 1) counter++;
 
 	return counter;
 }
