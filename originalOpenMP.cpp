@@ -11,7 +11,6 @@
 using namespace std;
 
 void insertGlider(vector <vector<bool>> &grid) {
-    //GLIDER
     int lin = 1, col = 1;
     grid[lin][col + 1] = 1;
     grid[lin + 1][col + 2] = 1;
@@ -21,7 +20,6 @@ void insertGlider(vector <vector<bool>> &grid) {
 }
 
 void insertRpentomino(vector <vector<bool>> &grid) {
-    //R-pentomino
     int lin = 10;
     int col = 30;
     grid[lin][col + 1] = 1;
@@ -37,30 +35,29 @@ void initNewGrid(vector <vector<bool>> &grid) {
 }
 
 int Neighbours_Count(vector <vector<bool>> &Grid, int X, int Y) {
-    int Nb_Total = 0;                                                   //Qnt. of Neighbours
-    vector <pair<int, int>> Nb_List;                                   //Vector of Neighbours coordinates for future validation
+    int Nb_Total = 0;
+    vector <pair<int, int>> Nb_List;
 
-    for (int i = X - 1; i <= X + 1; i++)                                    //Analyses all squares around current X,Y
+    for (int i = X - 1; i <= X + 1; i++)
         for (int j = Y - 1; j <= Y + 1; j++)
             if (!(i == X && j == Y))
-                Nb_List.push_back(make_pair(i, j));                     //Adds the neighbours coordinates to the vector
+                Nb_List.push_back(make_pair(i, j));
 
 
-    for (int i = 0; i <
-                    8; i++) {                                      //Analyses each neighbour to check if the coordinates are valid and, if not, fixes them
-        if (Nb_List[i].first < 0)                                       //Validate X coordinate
+    for (int i = 0; i < 8; i++) {
+        if (Nb_List[i].first < 0)
             Nb_List[i].first = Grid.size() - 1;
         else if (Nb_List[i].first > (signed int) Grid.size() - 1)
             Nb_List[i].first = 0;
 
-        if (Nb_List[i].second < 0)                                      //Validade Y coordinate
+        if (Nb_List[i].second < 0)
             Nb_List[i].second = Grid.size() - 1;
         else if (Nb_List[i].second > (signed int) Grid.size() - 1)
             Nb_List[i].second = 0;
     }
 
-    for (int i = 0; i < 8; i++)                                         //Verify how many neighbours are alive
-        if (Grid[Nb_List[i].first][Nb_List[i].second] == 1)             //Access Cell Status for each Neighbour
+    for (int i = 0; i < 8; i++)
+        if (Grid[Nb_List[i].first][Nb_List[i].second] == 1)
             Nb_Total++;
 
     return Nb_Total;
