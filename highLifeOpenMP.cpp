@@ -86,7 +86,7 @@ bool recalculateCell(vector <vector<bool>> &grid, int lin, int col) {
     int neighboursNumber = countNeighbours(grid, lin, col);
 
     if (grid[lin][col] == 0) {
-        if (neighboursNumber == 3) return 1;
+        if (neighboursNumber == 6 || neighboursNumber == 3) return 1;
     } else {
         if (neighboursNumber < 2 || neighboursNumber >= 4) return 0;
     }
