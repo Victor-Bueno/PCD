@@ -1,3 +1,7 @@
+/** 
+ * @authors: Victor Bueno, Yuri Shiba
+*/
+
 #include <iostream>
 #include <omp.h>
 #include <vector>
