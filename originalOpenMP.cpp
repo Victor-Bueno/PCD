@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cstdlib>
 #include <omp.h>
 #include <vector>
 #include <utility>
@@ -34,94 +33,89 @@ void initNewGrid(vector <vector<bool>> &grid) {
     insertRpentomino(grid);
 }
 
-int Neighbours_Count(vector <vector<bool>> &Grid, int X, int Y) {
-    int Nb_Total = 0;
-    vector <pair<int, int>> Nb_List;
+int countNeighbours(vector <vector<bool>> &grid, int lin, int col) {
+    int counter = 0;
+    vector <pair<int, int>> neighbours;
 
-    for (int i = X - 1; i <= X + 1; i++)
-        for (int j = Y - 1; j <= Y + 1; j++)
-            if (!(i == X && j == Y))
-                Nb_List.push_back(make_pair(i, j));
-
+    for (int i = lin - 1; i <= lin + 1; i++) {
+        for (int j = col - 1; j <= col + 1; j++) {
+            if (!(i == lin && j == col)) {
+                neighbours.push_back(make_pair(i, j));
+            }
+        }
+    }
 
     for (int i = 0; i < 8; i++) {
-        if (Nb_List[i].first < 0)
-            Nb_List[i].first = Grid.size() - 1;
-        else if (Nb_List[i].first > (signed int) Grid.size() - 1)
-            Nb_List[i].first = 0;
+        if (neighbours[i].first < 0)
+            neighbours[i].first = grid.size() - 1;
+        else if (neighbours[i].first > (signed int) grid.size() - 1)
+            neighbours[i].first = 0;
 
-        if (Nb_List[i].second < 0)
-            Nb_List[i].second = Grid.size() - 1;
-        else if (Nb_List[i].second > (signed int) Grid.size() - 1)
-            Nb_List[i].second = 0;
+        if (neighbours[i].second < 0)
+            neighbours[i].second = grid.size() - 1;
+        else if (neighbours[i].second > (signed int) grid.size() - 1)
+            neighbours[i].second = 0;
     }
 
-    for (int i = 0; i < 8; i++)
-        if (Grid[Nb_List[i].first][Nb_List[i].second] == 1)
-            Nb_Total++;
+    for (int i = 0; i < 8; i++) {
+        if (grid[neighbours[i].first][neighbours[i].second] == 1) counter++;
+    }
 
-    return Nb_Total;
+    return counter;
 }
 
-int Cells_Total(vector <vector<bool>> &Grid) {
-    int Cells_Sum = 0;
+// Conta o número de células vivas no tabuleiro atual
+int countGridCells(vector <vector<bool>> &grid) {
+    int count = 0;
 
-    for (unsigned int i = 0; i < Grid.size(); i++)
-        for (unsigned int j = 0; j < Grid[i].size(); j++)
-            if (Grid[i][j] == 1)
-                Cells_Sum++;
+    for (unsigned int i = 0; i < grid.size(); i++) {
+        for (unsigned int j = 0; j < grid[i].size(); j++) {
+            if (grid[i][j] == 1) count++;
+        }
+    }
 
-    return Cells_Sum;
+    return count;
 }
 
+// Atualiza as mudaças individuais em relação à célula após cada iteração
+bool recalculateCell(vector <vector<bool>> &grid, int lin, int col) {
+    int neighboursNumber = countNeighbours(grid, lin, col);
 
-bool Cell_Update(vector <vector<bool>> &Grid, int X, int Y) {
-    int Nb_Count = Neighbours_Count(Grid, X, Y);
-
-    if (Grid[X][Y] == 0) {
-        if (Nb_Count == 3)
-            return 1;
+    if (grid[lin][col] == 0) {
+        if (neighboursNumber == 3) return 1;
     } else {
-        if (Nb_Count < 2 || Nb_Count >= 4)
-            return 0;
+        if (neighboursNumber < 2 || neighboursNumber >= 4) return 0;
     }
 
-    return Grid[X][Y];
+    return grid[lin][col];
 }
 
+// Atualiza as mudanças no tabuleiro após cada iteração
+void recalculateGrid(vector <vector<bool>> &grid, vector <vector<bool>> &newGrid) {
+    int lin, col;
 
-void Grid_Update(vector <vector<bool>> &Grid, vector <vector<bool>> &New_Grid) {
-    int X, Y;
-
-#pragma omp parallel private(X, Y) shared(Grid, New_Grid)
+#pragma omp parallel private(lin, col) shared(grid, newGrid)
     {
 #pragma omp for collapse(2)
-        for (X = 0; X < (int) Grid.size(); X++)
-            for (Y = 0; Y < (int) Grid.size(); Y++)
-                New_Grid[X][Y] = Cell_Update(Grid, X, Y);
+        for (lin = 0; lin < (int) grid.size(); lin++)
+            for (col = 0; col < (int) grid.size(); col++)
+                newGrid[lin][col] = recalculateCell(grid, lin, col);
     }
 }
 
-
 int main() {
-    omp_set_num_threads(NUMBER_OF_THREADS);
-    float startTime = omp_get_wtime();
+    vector <vector<bool>> grid(N, vector<bool>(N));
+    vector <vector<bool>> newGrid(N, vector<bool>(N));
 
-    vector <vector<bool>> Grid(N, vector<bool>(N));
-    vector <vector<bool>> New_Grid(N, vector<bool>(N));
+    initNewGrid(grid);
 
-    initNewGrid(Grid);
-
-    cout << "Generation 0: " << Cells_Total(Grid) << endl;
+    cout << "=-=-=> Gen 0: " << countGridCells(grid) << endl;
 
     for (int i = 1; i <= NUMBER_OF_GENERATIONS ; i++) {
-        Grid_Update(Grid, New_Grid);
-        Grid = New_Grid;
-        cout << "Generation " << i << ": " << Cells_Total(Grid) << endl;
+        recalculateGrid(grid, newGrid);
+        grid = newGrid;
+        cout << "=-=-=> Gen " << i << ": " << countGridCells(grid) << endl;
     }
-
-    float endTime = omp_get_wtime();
-    cout << endl << "Time Elapsed: " << endTime - startTime << endl;
 
     return 0;
 }
