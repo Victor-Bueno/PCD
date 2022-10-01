@@ -108,6 +108,8 @@ void recalculateGrid(vector <vector<bool>> &grid, vector <vector<bool>> &newGrid
 }
 
 int main() {
+    float startTime, endTime;
+
     vector <vector<bool>> grid(N, vector<bool>(N));
     vector <vector<bool>> newGrid(N, vector<bool>(N));
 
@@ -115,11 +117,15 @@ int main() {
 
     cout << "=-=-=> Gen 0: " << countGridCells(grid) << endl;
 
+    startTime = omp_get_wtime();
     for (int i = 1; i <= NUMBER_OF_GENERATIONS ; i++) {
         recalculateGrid(grid, newGrid);
         grid = newGrid;
         cout << "=-=-=> Gen " << i << ": " << countGridCells(grid) << endl;
     }
+    endTime = omp_get_wtime();
+
+    cout << "Elapsed time in the `for` that computes the successive generations: " << endTime - startTime << endl;
 
     return 0;
 }
