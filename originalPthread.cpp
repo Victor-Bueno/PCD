@@ -1,5 +1,8 @@
+/** 
+ * @authors: Victor Bueno, Yuri Shiba
+*/
+
 #include <iostream>
-#include <cstdlib>
 #include <pthread.h>
 #include <vector>
 #include <stack>
@@ -31,7 +34,7 @@ void initNewGrid(vector<vector<bool>> &newGrid) {
 	lin = 10; col = 30;
 	newGrid[lin][col + 1] = 1;
 	newGrid[lin][col + 2] = 1;
-	newGrid[lin + 1][col  ] = 1;
+	newGrid[lin + 1][col] = 1;
 	newGrid[lin + 1][col + 1] = 1;
 	newGrid[lin + 2][col + 1] = 1;
 }
@@ -141,11 +144,8 @@ void recalculateGrid(vector<vector<bool>> &grid, vector<vector<bool>> &otherGrid
     }
 }
 
-//==================================================================================================================================
-
 int main() {
     struct timeval startTime, endTime;
-    gettimeofday(&startTime, NULL);	
 
     vector<vector<bool>> grid(N, vector<bool>(N)); // Fonte: https://stackoverflow.com/questions/12375591/vector-of-vectors-to-create-matrix
     vector<vector<bool>> otherGrid(N, vector<bool> (N));
@@ -154,14 +154,15 @@ int main() {
 
     cout << "=-=-=> Gen 0: " << countGridCells(grid) << " cells alive!" << endl;
 
+    gettimeofday(&startTime, NULL);	
     for (int i = 1; i <= NUMBER_OF_GENERATIONS; i++) {
         recalculateGrid(grid, otherGrid);
 
         grid = otherGrid;
         cout << "=-=-=> Gen " << i << ": " << countGridCells(grid) << " cells alive!" << endl;
     }
-
     gettimeofday(&endTime, NULL);
+
     cout << endl << "/--->> Time: " << (int) (endTime.tv_sec - startTime.tv_sec) << endl;
 
     return 0;
