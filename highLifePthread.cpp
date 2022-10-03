@@ -100,7 +100,7 @@ void *recalculateCell(void *arguments) {
         int counterOfNeighbours = countNeighbours(*grid, X, Y);
     
         if ((*grid)[X][Y] == 0) {
-            if (counterOfNeighbours == 3) {
+            if (counterOfNeighbours == 6 || counterOfNeighbours == 3) {
                 (*otherGrid)[X][Y] = 1;
                 continue;
             }
