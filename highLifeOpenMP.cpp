@@ -108,6 +108,8 @@ void recalculateGrid(vector <vector<bool>> &grid, vector <vector<bool>> &newGrid
 }
 
 int main() {
+    omp_set_num_threads(NUMBER_OF_THREADS);
+
     float startTime, endTime;
 
     vector <vector<bool>> grid(N, vector<bool>(N));
