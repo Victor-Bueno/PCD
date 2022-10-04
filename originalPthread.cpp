@@ -163,7 +163,7 @@ int main() {
     }
     gettimeofday(&endTime, NULL);
 
-    cout << endl << "/--->> Time: " << (int) (endTime.tv_sec - startTime.tv_sec) << endl;
+    cout << endl << "/--->> Time: " << (endTime.tv_sec - startTime.tv_sec) << endl;
 
     return 0;
 }
