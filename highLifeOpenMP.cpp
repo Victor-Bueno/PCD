@@ -122,12 +122,13 @@ int main() {
     startTime = omp_get_wtime();
     for (int i = 1; i <= NUMBER_OF_GENERATIONS ; i++) {
         recalculateGrid(grid, newGrid);
+        
         grid = newGrid;
-        cout << "=-=-=> Gen " << i << ": " << countGridCells(grid) << endl;
+        cout << "=-=-=> Gen " << i << ": " << countGridCells(grid) << " cells alive!" << endl;
     }
     endTime = omp_get_wtime();
 
-    cout << "Elapsed time in the `for` that computes the successive generations: " << endTime - startTime << endl;
+    cout << "/--->> Time: " << endTime - startTime << endl;
 
     return 0;
 }

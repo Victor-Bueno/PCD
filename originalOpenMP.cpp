@@ -8,7 +8,7 @@
 #include <utility>
 
 #define N 2048 // Tamanho do tabuleiro NxN
-#define NUMBER_OF_THREADS 4 // Quantidade de threads a serem criadas no paralelismo
+#define NUMBER_OF_THREADS 1 // Quantidade de threads a serem criadas no paralelismo
 #define NUMBER_OF_GENERATIONS 2000 // Número de iterações de atualização do tabuleiro
 
 using namespace std;
@@ -122,12 +122,13 @@ int main() {
     startTime = omp_get_wtime();
     for (int i = 1; i <= NUMBER_OF_GENERATIONS ; i++) {
         recalculateGrid(grid, newGrid);
+        
         grid = newGrid;
-        cout << "=-=-=> Gen " << i << ": " << countGridCells(grid) << endl;
+        cout << "=-=-=> Gen " << i << ": " << countGridCells(grid) << " cells alive!" << endl;
     }
     endTime = omp_get_wtime();
 
-    cout << "Elapsed time in the `for` that computes the successive generations: " << endTime - startTime << endl;
+    cout << "/--->> Time: " << endTime - startTime << endl;
 
     return 0;
 }
