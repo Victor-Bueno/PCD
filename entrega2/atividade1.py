@@ -32,6 +32,7 @@ def cliente(arg):
 
 	while True:
 		secaoNaoCritica(arg)
+		# Comentar as duas linhas abaixo para verificar como seria o comportamento sem o pré-protocolo 
 		while res != arg:
 			req = arg
 		secaoCritica(arg)
