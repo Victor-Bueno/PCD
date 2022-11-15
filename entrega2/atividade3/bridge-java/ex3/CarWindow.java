@@ -1,3 +1,8 @@
+/**
+ * Victor Antonio Bueno
+ * Yuri Akira Shiba
+ */
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;

@@ -1,3 +1,8 @@
+/**
+ * Victor Antonio Bueno
+ * Yuri Akira Shiba
+ */
+
 import java.awt.*;
 
 public class Car implements Runnable{
