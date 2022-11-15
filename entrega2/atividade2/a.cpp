@@ -73,12 +73,13 @@ int count = 0;
 void countGridCells(vector <vector<bool>> &grid){
     int i, j;
 
-    #pragma omp parallel shared(grid) private(i,j) reduction(+:count) num_threads(NUMBER_OF_THREADS)
+    #pragma omp parallel shared(grid, count) private(i,j) num_threads(NUMBER_OF_THREADS)
         #pragma omp for
             for(i=0; i < N; i++)
-                for (j = 0; j < N; j++) 
-                    if(grid[i][j]) 
-                        count++;
+                for (j = 0; j < N; j++)
+                    #pragma omp critical
+                        if(grid[i][j])
+                            count++;
         
     
     cout << "Total grid cells: " << count << endl;
