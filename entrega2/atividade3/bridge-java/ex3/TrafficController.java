@@ -1,7 +1,7 @@
 import java.util.concurrent.*;
 
 public class TrafficController {
-    private Semaphore mutex = new Semaphore(1);
+    private Semaphore mutex = new Semaphore(1, true);
 
     public void enterLeft() {
         try {
