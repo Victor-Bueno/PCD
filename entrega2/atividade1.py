@@ -1,3 +1,5 @@
+# @authors: Victor Bueno, Yuri Shiba
+
 from threading import Thread
 import random
 import time
