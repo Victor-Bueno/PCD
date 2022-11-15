@@ -1,9 +1,27 @@
 import java.util.concurrent.*;
 
 public class TrafficController {
-    public void enterLeft() { }
-    public void enterRight() { }
-    public void leaveLeft() { }
-    public void leaveRight() { }
+    private Semaphore mutex = new Semaphore(1);
+
+    public void enterLeft() {
+        try {
+            mutex.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    public void enterRight() {
+        try {
+            mutex.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    public void leaveLeft() {
+        mutex.release();
+    }
+    public void leaveRight() {
+        mutex.release();
+    }
 
 }
