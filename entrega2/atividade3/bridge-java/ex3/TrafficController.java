@@ -10,6 +10,7 @@ public class TrafficController {
             e.printStackTrace();
         }
     }
+
     public void enterRight() {
         try {
             mutex.acquire();
@@ -17,9 +18,11 @@ public class TrafficController {
             e.printStackTrace();
         }
     }
+
     public void leaveLeft() {
         mutex.release();
     }
+
     public void leaveRight() {
         mutex.release();
     }
