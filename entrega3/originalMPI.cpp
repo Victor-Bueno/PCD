@@ -48,7 +48,7 @@ int countNeighbours(bool *grid, int lin, int col) {
     for (int i = lin - 1; i <= lin + 1; i++) {
         for (int j = col - 1; j <= col + 1; j++) {
             if (!(i == lin && j == col)) {
-                neighbours.push_back(make_pair(i + rankProccess * elementsPerProcess, j));
+                neighbours.push_back(make_pair(i + processRank * elementsPerProcess, j));
             }
         }
     }
