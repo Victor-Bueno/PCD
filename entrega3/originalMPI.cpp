@@ -7,6 +7,7 @@
 #include <utility>
 #include <mpi.h>
 
+#define NUMBER_OF_GENERATIONS 100 // Número de gerações
 #define N 2048 // Tamanho do tabuleiro NxN
 
 using namespace std;
