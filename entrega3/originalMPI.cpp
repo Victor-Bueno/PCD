@@ -8,7 +8,7 @@
 #include <mpi.h>
 
 #define NUMBER_OF_GENERATIONS 100 // Número de gerações
-#define N 2048 // Tamanho do tabuleiro NxN
+#define N 4
 
 using namespace std;
 
@@ -36,12 +36,12 @@ void insertRpentomino(vector <vector<bool>> &grid) {
     grid[(lin + 2) * N + (col + 1)] = 1;
 }
 
-void initNewGrid(vector <vector<bool>> &grid) {
+void initNewGrid(bool *grid) {
     insertGlider(grid);
     insertRpentomino(grid);
 }
 
-int countNeighbours(vector <vector<bool>> &grid, int lin, int col) {
+int countNeighbours(bool *grid, int lin, int col) {
     int counter = 0;
     vector <pair<int, int>> neighbours;
 
@@ -55,13 +55,13 @@ int countNeighbours(vector <vector<bool>> &grid, int lin, int col) {
 
     for (int i = 0; i < 8; i++) {
         if (neighbours[i].first < 0)
-            neighbours[i].first = grid.size() - 1;
-        else if (neighbours[i].first > (signed int) grid.size() - 1)
+            neighbours[i].first = N - 1;
+        else if (neighbours[i].first > (signed int) N - 1)
             neighbours[i].first = 0;
 
         if (neighbours[i].second < 0)
-            neighbours[i].second = grid.size() - 1;
-        else if (neighbours[i].second > (signed int) grid.size() - 1)
+            neighbours[i].second = N - 1;
+        else if (neighbours[i].second > (signed int) N - 1)
             neighbours[i].second = 0;
     }
 
@@ -73,11 +73,11 @@ int countNeighbours(vector <vector<bool>> &grid, int lin, int col) {
 }
 
 // Conta o número de células vivas no tabuleiro atual
-int countGridCells(vector <vector<bool>> &grid) {
+int countGridCells(bool *grid) {
     int count = 0;
 
-    for (unsigned int i = 0; i < grid.size(); i++) {
-        for (unsigned int j = 0; j < grid[i].size(); j++) {
+    for (unsigned int i = 0; i < N; i++) {
+        for (unsigned int j = 0; j < N; j++) {
             if (grid[i * N + j] == 1) count++;
         }
     }
@@ -86,7 +86,7 @@ int countGridCells(vector <vector<bool>> &grid) {
 }
 
 // Atualiza as mudaças individuais em relação à célula após cada iteração
-bool recalculateCell(bool *partOfGrid, vector <vector<bool>> &grid, int lin, int col) {
+bool recalculateCell(bool *partOfGrid, bool *grid, int lin, int col) {
     int neighboursNumber = countNeighbours(grid, lin, col);
 
     if (partOfGrid[lin * N + col] == 0) {
@@ -99,7 +99,7 @@ bool recalculateCell(bool *partOfGrid, vector <vector<bool>> &grid, int lin, int
 }
 
 // Atualiza as mudanças no tabuleiro após cada iteração
-void recalculateGrid(vector <vector<bool>> &grid, vector <vector<bool>> &newGrid) {
+void recalculateGrid(bool *grid, bool *newGrid) {
     int lin, col;
 
     bool *partOfGrid = new bool[elementsPerProcess];
