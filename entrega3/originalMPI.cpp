@@ -14,6 +14,7 @@ using namespace std;
 
 int elementsPerProcess;
 int processRank;
+int totalProcesses;
 
 void insertGlider(vector <vector<bool>> &grid) {
     int lin = 1, col = 1;
