@@ -16,7 +16,8 @@ int elementsPerProcess;
 int processRank;
 int totalProcesses;
 
-void insertGlider(vector <vector<bool>> &grid) {
+void initNewGrid(bool *grid) {
+    // insertGlider
     int lin = 1, col = 1;
 
     grid[lin * N + (col + 1)] = 1;
@@ -24,21 +25,15 @@ void insertGlider(vector <vector<bool>> &grid) {
     grid[(lin + 2) * N + col] = 1;
     grid[(lin + 2) * N + (col + 1)] = 1;
     grid[(lin + 2) * N + (col + 2)] = 1;
-}
 
-void insertRpentomino(vector <vector<bool>> &grid) {
-    int lin = 10, col = 30;
+    // insertRpentomino
+    lin = 10, col = 30;
 
     grid[lin * N + (col + 1)] = 1;
     grid[lin * N + (col + 2)] = 1;
     grid[(lin + 1) * N + col] = 1;
     grid[(lin + 1) * N + (col + 1)] = 1;
     grid[(lin + 2) * N + (col + 1)] = 1;
-}
-
-void initNewGrid(bool *grid) {
-    insertGlider(grid);
-    insertRpentomino(grid);
 }
 
 int countNeighbours(bool *grid, int lin, int col) {
