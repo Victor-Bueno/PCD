@@ -122,7 +122,7 @@ int main() {
 
     elementsPerProcess = N * N / totalProcesses;
 
-    float startTime, endTime;
+    double startTime, endTime;
 
     bool *grid = new bool[N * N];
     bool *newGrid = new bool[N * N];
@@ -132,7 +132,7 @@ int main() {
     if(processRank == 0)
         cout << "=-=-=> Gen 0: " << countGridCells(grid) << endl;
 
-    startTime = omp_get_wtime();
+    startTime = MPI_Wtime();
     for (int i = 1; i <= NUMBER_OF_GENERATIONS ; i++) {
         recalculateGrid(grid, newGrid);
         
@@ -140,7 +140,7 @@ int main() {
         if(processRank == 0)
             cout << "=-=-=> Gen " << i << ": " << countGridCells(grid) << " cells alive!" << endl;
     }
-    endTime = omp_get_wtime();
+    endTime = MPI_Wtime();
 
     if(processRank == 0)
         cout << "/--->> Time: " << endTime - startTime << endl;
