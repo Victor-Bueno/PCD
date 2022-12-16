@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <utility>
+#include <mpi.h>
 
 #define N 2048 // Tamanho do tabuleiro NxN
 
