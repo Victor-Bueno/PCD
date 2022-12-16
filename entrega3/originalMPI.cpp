@@ -71,8 +71,8 @@ int countNeighbours(bool *grid, int lin, int col) {
 int countGridCells(bool *grid) {
     int count = 0;
 
-    for (unsigned int i = 0; i < N; i++) {
-        for (unsigned int j = 0; j < N; j++) {
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
             if (grid[i * N + j] == 1) count++;
         }
     }
@@ -133,7 +133,7 @@ int main() {
     for (int i = 1; i <= NUMBER_OF_GENERATIONS ; i++) {
         recalculateGrid(grid, newGrid);
         
-        grid = newGrid;
+        *grid = *newGrid;
         if(processRank == 0)
             cout << "=-=-=> Gen " << i << ": " << countGridCells(grid) << " cells alive!" << endl;
     }
